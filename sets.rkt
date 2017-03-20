@@ -48,7 +48,7 @@
   (cond ((empty? s1) s2)
         ((empty? s2) s1)
         ((in? (car s1) s2) (symmetric-difference (cdr s1) (discard (car s1) s2)))
-        (else (cons (car s1) (symmetric-difference (cdr s1) s2))))
+        (else (cons (car s1) (symmetric-difference (cdr s1) s2)))) ; not tail recursive
 )
 
 (define (subset? s1 s2)
@@ -77,13 +77,13 @@
   (cond ((and (empty? s1) (empty? s2) #t))
         ((empty? s1) #f)
         ((empty? s2) #f)
-        ((in? (car s1) s2) (sameset? (cdr s1) (discard (cdr s1) s2)))
+        ((in? (car s1) s2) (sameset? (cdr s1) (discard (car s1) s2)))
         (else #f))
 )
 
 
 ; some tests
-#|(define A (set '(1 2 7 9 7 1)))
+(define A (set '(1 2 7 9 7 1)))
 (define B (set '(2 0 8 0 7 12)))
 (define C (set '(9 7)))
 
@@ -141,4 +141,4 @@
 (disjoint? colors A) ;#t
 
 (sameset? (set '(9 1 2 7)) A); #t
-(sameset? B A) ; #f |#
+(sameset? B A) ; #f
